@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  CONTENT_CREATOR
+  VISITOR
+}
+
+model User {
+  id              Int              @id @default(autoincrement())
+  uuid            String           @unique @default(uuid())
+  name            String
+  email           String           @unique
+  passwordHash    String
+  role            Role             @default(VISITOR)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  refreshTokens   RefreshToken[]
+  contactMessages ContactMessage[]
+  pages           Page[]
+  sections        Section[]
+  components      Component[]
+}
+
+model RefreshToken {
+  id        Int       @id @default(autoincrement())
+  uuid      String    @unique @default(uuid())
+  tokenHash String
+  expiresAt DateTime
+  revokedAt DateTime?
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+}
+
+model Page {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @default(uuid())
+  nameEn      String
+  nameAr      String
+  isPublished Boolean   @default(false)
+  index       Int       @default(0)
+  createdById Int
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  sections    Section[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Section {
+  id             Int             @id @default(autoincrement())
+  uuid           String          @unique @default(uuid())
+  nameEn         String
+  nameAr         String
+  index          Int             @default(0)
+  pageId         Int
+  page           Page            @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  createdById    Int
+  createdBy      User            @relation(fields: [createdById], references: [id])
+  pageComponents PageComponent[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Component {
+  id             Int             @id @default(autoincrement())
+  uuid           String          @unique @default(uuid())
+  nameEn         String
+  nameAr         String
+  properties     Json
+  createdById    Int
+  createdBy      User            @relation(fields: [createdById], references: [id])
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  pageComponents PageComponent[]
+}
+
+model PageComponent {
+  id          Int             @id @default(autoincrement())
+  uuid        String          @unique @default(uuid())
+  sectionId   Int
+  section     Section         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  componentId Int
+  component   Component       @relation(fields: [componentId], references: [id], onDelete: Cascade)
+  data        Json
+  index       Int             @default(0)
+  parentId    Int?
+  parent      PageComponent?  @relation("PageComponentParent", fields: [parentId], references: [id])
+  children    PageComponent[] @relation("PageComponentParent")
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model ContactMessage {
+  id         Int       @id @default(autoincrement())
+  uuid       String    @unique @default(uuid())
+  visitorId  Int
+  visitor    User      @relation(fields: [visitorId], references: [id])
+  message    String
+  adminReply String?
+  repliedAt  DateTime?
+  createdAt  DateTime  @default(now())
+}
