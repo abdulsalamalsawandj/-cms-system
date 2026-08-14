@@ -1,0 +1,29 @@
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Abdulsalam",
+  "email": "test@test.com",
+  "password": "123456"
+}
+
+### Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123456"
+}
+
+### Get All Pages
+GET http://localhost:3000/pages
+
+### Create Page
+POST http://localhost:3000/pages
+Content-Type: application/json
+
+{
+  "nameEn": "Home",
+  "nameAr": "الرئيسية"
+}
