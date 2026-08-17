@@ -28,6 +28,7 @@ model User {
   pages           Page[]
   sections        Section[]
   components      Component[]
+  pageComponents  PageComponent[]
 }
 
 model RefreshToken {
@@ -84,19 +85,22 @@ model Component {
 }
 
 model PageComponent {
-  id          Int             @id @default(autoincrement())
-  uuid        String          @unique @default(uuid())
-  sectionId   Int
-  section     Section         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  componentId Int
-  component   Component       @relation(fields: [componentId], references: [id], onDelete: Cascade)
-  data        Json
-  index       Int             @default(0)
-  parentId    Int?
-  parent      PageComponent?  @relation("PageComponentParent", fields: [parentId], references: [id])
-  children    PageComponent[] @relation("PageComponentParent")
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  id                Int             @id @default(autoincrement())
+  uuid              String          @unique @default(uuid())
+  sectionId         Int
+  section           Section         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  componentId       Int
+  component         Component       @relation(fields: [componentId], references: [id], onDelete: Cascade)
+  data              Json
+  componentSettings Json            @default("{}")
+  index             Int             @default(0)
+  parentId          Int?
+  parent            PageComponent?  @relation("PageComponentParent", fields: [parentId], references: [id])
+  children          PageComponent[] @relation("PageComponentParent")
+  createdById       Int
+  createdBy         User            @relation(fields: [createdById], references: [id])
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
 }
 
 model ContactMessage {
