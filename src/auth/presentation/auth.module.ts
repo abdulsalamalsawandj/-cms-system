@@ -6,6 +6,8 @@ import { authController } from "./auth.controller";
 import { PrismaUserRepository } from "../infrastructure/repositories/prismaUser.repositories";
 import { PrismaRefreshTokenRepository } from "../infrastructure/repositories/prismaRefreshToken.repositories"
 import { refreshTokenUseCase } from "src/auth/application/use_cases/refresh-token.use_case";
+import { getProfileUseCase } from "src/auth/application/use_cases/get-profile.use_case";
+import { updateProfileUseCase } from "src/auth/application/use_cases/update-profile.use_case";
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { refreshTokenUseCase } from "src/auth/application/use_cases/refresh-toke
     registerUserUseCase,
     refreshTokenUseCase,
     loginUseCase,
+    getProfileUseCase,
+    updateProfileUseCase,
     { provide: 'userRepository', useClass: PrismaUserRepository },
     { provide: 'refreshTokenRepository', useClass: PrismaRefreshTokenRepository },
   ],

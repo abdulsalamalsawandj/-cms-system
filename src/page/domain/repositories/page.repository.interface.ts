@@ -11,6 +11,7 @@ export interface PageRepository {
     update(id : number, data: Partial<{nameEn: string; nameAr : string; index: number}>) : Promise <pageEntity>;
     publish(id : number) : Promise <void>;
     delete(id : number) : Promise <void>;
+    countPublished() : Promise <number>;
 
 
-} 
+}

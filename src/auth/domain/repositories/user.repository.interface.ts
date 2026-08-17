@@ -6,6 +6,8 @@ export interface userRepository {
     create (data: {
         name : string,
         email : string,
-        passwordHash : string,    
+        passwordHash : string,
     }) : Promise <userEntity>,
+    update (id : number, data: Partial<{name : string; email : string; passwordHash : string}>) : Promise <userEntity>,
+    countByRole (role : 'ADMIN' | 'CONTENT_CREATOR' | 'VISITOR') : Promise <number>,
 }

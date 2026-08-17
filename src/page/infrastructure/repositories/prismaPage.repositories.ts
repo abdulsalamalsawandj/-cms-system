@@ -37,4 +37,8 @@ export class PrismaPageRepository implements PageRepository {
   async delete(id: number): Promise<void> {
     await this.prisma.page.delete({ where: { id } });
   }
+
+  async countPublished(): Promise<number> {
+    return this.prisma.page.count({ where: { isPublished: true } });
+  }
 }
