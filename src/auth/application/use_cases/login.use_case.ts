@@ -18,13 +18,13 @@ export class loginUseCase {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const passwordValid = await bcrypt.compare(data.password, User.HashedPassword);
+    const passwordValid = await bcrypt.compare(data.password, User.passwordHash);
     if (!passwordValid) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     const accessToken = this.jwtService.sign(
-      { sub: User.id, role: User.Role },
+      { sub: User.id, role: User.role },
       { expiresIn: '15m' },
     );
 

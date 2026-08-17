@@ -33,7 +33,7 @@ export class refreshTokenUseCase {
                         throw new UnauthorizedException('refreshToken has been expired ')
                     }
                     const accessToken = this.JwtService.sign(
-                        {sub : user.id, role:user.Role},
+                        {sub : user.id, role:user.role},
                         {expiresIn : '15m'},
                     );
                     return{accessToken};

@@ -4,7 +4,7 @@ export class userEntity {
     public readonly uuid: string,
     public readonly name : string,
     public readonly email : string, 
-    public readonly HashedPassword : string,
-    public readonly Role : 'ADMIN' | 'CONTENT_CREATOR' | 'VISITOR',){}
+    public readonly passwordHash : string,
+    public readonly role : 'ADMIN' | 'CONTENT_CREATOR' | 'VISITOR',){}
 
 }

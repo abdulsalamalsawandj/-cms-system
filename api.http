@@ -27,3 +27,31 @@ Content-Type: application/json
   "nameEn": "Home",
   "nameAr": "الرئيسية"
 }
+### Register
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{ "name": "Test", "email": "test3@test.com", "password": "123456" }
+
+### Login 
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{ "email": "test3@test.com", "password": "123456" }
+
+### Create Page (with token)
+POST http://localhost:3000/pages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJWSVNJVE9SIiwiaWF0IjoxNzg2OTgxOTI1LCJleHAiOjE3ODY5ODI4MjV9.lARE0AMy01pSHbVxPxhV496qAD0NjrhmYHICthwiwwI
+
+{ "nameEn": "Test Page", "nameAr": "صفحة تجربة" }
+
+###  Publish (VISITOR role)
+PATCH http://localhost:3000/pages/1/publish
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJWSVNJVE9SIiwiaWF0IjoxNzg2OTgxOTI1LCJleHAiOjE3ODY5ODI4MjV9.lARE0AMy01pSHbVxPxhV496qAD0NjrhmYHICthwiwwI
+
+### No token (should fail - 401)
+POST http://localhost:3000/pages
+Content-Type: application/json
+
+{ "nameEn": "No Auth Test", "nameAr": "بدون تسجيل" }
